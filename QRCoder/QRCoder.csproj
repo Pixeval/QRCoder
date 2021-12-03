@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-windows</TargetFrameworks>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <DefineConstants>$(DefineConstants);NET6_0_WINDOWS</DefineConstants>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn />
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>QRCoder</PackageId>
+    <Version>1.4.3</Version>
+    <Authors>Raffael Herrmann</Authors>
+    <PackageOwners>Raffael Herrmann</PackageOwners>
+    <AssemblyName>QRCoder</AssemblyName>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/codebude/QRCoder/</PackageProjectUrl>
+    <PackageIcon>nuget-icon.png</PackageIcon>
+    <PackageReadmeFile>nuget-readme.md</PackageReadmeFile>
+    <PackageTags>c# csharp qr qrcoder qrcode qr-generator qr-code-generator</PackageTags>
+    <RepositoryUrl>https://github.com/codebude/QRCoder.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>QRCoder is a simple library, written in C#.NET, which enables you to create QR codes.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Assets\nuget-icon.png" Pack="true" PackagePath="\" />
+    <None Include="Assets\nuget-readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>
