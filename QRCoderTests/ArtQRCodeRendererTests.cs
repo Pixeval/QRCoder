@@ -3,9 +3,10 @@
 using Xunit;
 using QRCoder;
 using Shouldly;
-using System.Drawing;
 using QRCoderTests.Helpers.XUnitExtenstions;
 using QRCoderTests.Helpers;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace QRCoderTests
 {
@@ -36,7 +37,7 @@ namespace QRCoderTests
         {
             var gen = new QRCodeGenerator();
             var data = gen.CreateQrCode("This is a quick test! 123#?", QRCodeGenerator.ECCLevel.H);
-            var finder = new Bitmap(15, 15);
+            var finder = new Image<Bgra32>(15, 15);
             var bmp = new ArtQRCode(data).GetGraphic(10, Color.Black, Color.White, Color.Transparent, finderPatternImage: finder);
 
             var result = HelperFunctions.BitmapToHash(bmp);
@@ -69,7 +70,7 @@ namespace QRCoderTests
         {
             var gen = new QRCodeGenerator();
             var data = gen.CreateQrCode("This is a quick test! 123#?", QRCodeGenerator.ECCLevel.H);
-            var bmp = new ArtQRCode(data).GetGraphic((Bitmap)Image.FromFile(HelperFunctions.GetAssemblyPath() + "\\assets\\noun_software engineer_2909346.png"));
+            var bmp = new ArtQRCode(data).GetGraphic(Image.Load<Bgra32>(HelperFunctions.GetAssemblyPath() + "\\assets\\noun_software engineer_2909346.png"));
             //Used logo is licensed under public domain. Ref.: https://thenounproject.com/Iconathon1/collection/redefining-women/?i=2909346
 
             var result = HelperFunctions.BitmapToHash(bmp);

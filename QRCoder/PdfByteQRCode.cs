@@ -5,6 +5,9 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 using static QRCoder.QRCodeGenerator;
 
 /* This renderer is inspired by RemusVasii: https://github.com/codebude/QRCoder/issues/223 */
@@ -57,9 +60,9 @@ namespace QRCoder
         /// <param name="dpi"></param>
         /// <param name="jpgQuality"></param>
         /// <returns></returns>
-        public byte[] GetGraphic(int pixelsPerModule, string darkColorHtmlHex, string lightColorHtmlHex, int dpi = 150, long jpgQuality = 85)
+        public byte[] GetGraphic(int pixelsPerModule, string darkColorHtmlHex, string lightColorHtmlHex, int dpi = 150, int jpgQuality = 85)
         {
-            byte[] jpgArray = null, pngArray = null;
+            byte[] jpgArray, pngArray = null;
             var imgSize = QrCodeData.ModuleMatrix.Count * pixelsPerModule;
             var pdfMediaSize = (imgSize * 72 / dpi).ToString(CultureInfo.InvariantCulture);
 
@@ -73,15 +76,15 @@ namespace QRCoder
             using (var msPng = new MemoryStream())
             {
                 msPng.Write(pngArray, 0, pngArray.Length);
-                var img = System.Drawing.Image.FromStream(msPng);
+                var img = Image.Load(msPng);
+                var encoder = new JpegEncoder()
+                {
+                    Quality = jpgQuality
+                };
+                
                 using (var msJpeg = new MemoryStream())
                 {
-                    // Create JPEG with specified quality
-                    var jpgImageCodecInfo = ImageCodecInfo.GetImageEncoders().First(x => x.MimeType == "image/jpeg");
-                    var jpgEncoderParameters = new EncoderParameters(1) { 
-                        Param = new EncoderParameter[]{ new EncoderParameter(Encoder.Quality, jpgQuality) }
-                    };
-                    img.Save(msJpeg, jpgImageCodecInfo, jpgEncoderParameters);
+                    img.Save(msJpeg, encoder);
                     jpgArray = msJpeg.ToArray();
                 }
             }

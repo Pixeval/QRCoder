@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using QRCoder;
-using System.Drawing.Imaging;
 using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace QRCoderDemo
 {
@@ -38,8 +46,14 @@ namespace QRCoderDemo
             using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(textBoxQRCode.Text, eccLevel))
             using (QRCode qrCode = new QRCode(qrCodeData))
             {
-                pictureBoxQRCode.BackgroundImage = qrCode.GetGraphic(20, GetPrimaryColor(), GetBackgroundColor(),
+                var img = qrCode.GetGraphic(20, GetPrimaryColor(), GetBackgroundColor(),
                     GetIconBitmap(), (int)iconSize.Value);
+                using (var ms = new MemoryStream())
+                {
+                    img.Save(ms,new PngEncoder());
+                    pictureBoxQRCode.BackgroundImage = new Bitmap(ms);
+                }
+                
 
                 this.pictureBoxQRCode.Size = new System.Drawing.Size(pictureBoxQRCode.Width, pictureBoxQRCode.Height);
                 //Set the SizeMode to center the image.
@@ -49,7 +63,7 @@ namespace QRCoderDemo
             }
         }
 
-        private Bitmap GetIconBitmap()
+        private Image<Bgra32> GetIconBitmap()
         {
             if (iconPath.Text.Length == 0)
             {
@@ -57,7 +71,7 @@ namespace QRCoderDemo
             }
             try
             {
-                return new Bitmap(iconPath.Text);
+                return SixLabors.ImageSharp.Image.Load<Bgra32>(iconPath.Text);
             }
             catch (Exception)
             {
@@ -163,13 +177,16 @@ namespace QRCoderDemo
         }
 
         private Color GetPrimaryColor()
+
         {
-            return panelPreviewPrimaryColor.BackColor;
+            var color = panelPreviewPrimaryColor.BackColor;
+            return new Color(new Bgra32(color.R, color.G, color.B, color.A));
         }
 
         private Color GetBackgroundColor()
         {
-            return panelPreviewBackgroundColor.BackColor;
+            var color = panelPreviewBackgroundColor.BackColor;
+            return new Color(new Bgra32(color.R, color.G, color.B, color.A));
         }
     }
 }

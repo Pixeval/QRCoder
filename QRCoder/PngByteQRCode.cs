@@ -49,7 +49,7 @@ namespace QRCoder
         }
 
         /// <summary>
-        /// Creates a bitmap where each pixel is represented by a single bit, dark = 0 and light = 1.
+        /// Creates a Image<Bgra32> where each pixel is represented by a single bit, dark = 0 and light = 1.
         /// </summary>
         private byte[] DrawScanlines(int pixelsPerModule, bool drawQuietZones)
         {

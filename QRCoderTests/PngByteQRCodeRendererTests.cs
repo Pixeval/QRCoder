@@ -3,10 +3,9 @@ using QRCoder;
 using Shouldly;
 using QRCoderTests.Helpers.XUnitExtenstions;
 using QRCoderTests.Helpers;
-#if !NETCOREAPP1_1
-using System.Drawing;
 using System.IO;
-#endif
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace QRCoderTests
 {
@@ -36,7 +35,7 @@ namespace QRCoderTests
 #else
             using (var mStream = new MemoryStream(pngCodeGfx))
             {
-                var bmp = (Bitmap)Image.FromStream(mStream);
+                var bmp = Image.Load<Bgra32>(mStream);
                 var result = HelperFunctions.BitmapToHash(bmp);
                 result.ShouldBe("18b19e6037cff06ae995d8d487b0e46e");
             }
@@ -58,7 +57,7 @@ namespace QRCoderTests
 #else
             using (var mStream = new MemoryStream(pngCodeGfx))
             {
-                var bmp = (Bitmap)Image.FromStream(mStream);
+                var bmp = Image.Load<Bgra32>(mStream);
                 var result = HelperFunctions.BitmapToHash(bmp);
                 result.ShouldBe("37ae73e90b66beac317b790be3db24cc");
             }
@@ -81,7 +80,7 @@ namespace QRCoderTests
 #else
             using (var mStream = new MemoryStream(pngCodeGfx))
             {
-                var bmp = (Bitmap)Image.FromStream(mStream);
+                var bmp = Image.Load<Bgra32>(mStream);
                 var result = HelperFunctions.BitmapToHash(bmp);
                 result.ShouldBe("c56c2a9535fd8e9a92a6ac9709d21e67");
             }
@@ -110,7 +109,7 @@ namespace QRCoderTests
 #else
             using (var mStream = new MemoryStream(pngCodeGfx))
             {
-                var bmp = (Bitmap)Image.FromStream(mStream);
+                var bmp = Image.Load<Bgra32>(mStream);
                 var result = HelperFunctions.BitmapToHash(bmp);
                 result.ShouldBe("1978fb11ce26acf9b6cb7490b4c44ef2");
             }
@@ -130,7 +129,7 @@ namespace QRCoderTests
 #else
             using (var mStream = new MemoryStream(pngCodeGfx))
             {
-                var bmp = (Bitmap)Image.FromStream(mStream);
+                var bmp = Image.Load<Bgra32>(mStream);
                 var result = HelperFunctions.BitmapToHash(bmp);
                 result.ShouldBe("c56c2a9535fd8e9a92a6ac9709d21e67");
             }
