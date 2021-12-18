@@ -55,7 +55,7 @@ namespace QRCoder
         public string GetGraphic(int pixelsPerModule, Color darkColor, Color lightColor, Image<Bgra32> icon, int iconSizePercent = 15, int iconBorderWidth = 6, bool drawQuietZones = true, ImageType imgType = ImageType.Png)
         {
             var base64 = string.Empty;
-            using ( Image<Bgra32> bmp = qr.GetGraphic(pixelsPerModule, darkColor, lightColor, icon, iconSizePercent, iconBorderWidth, drawQuietZones))
+            using ( Image<Bgra32> bmp = qr.GetGraphic(pixelsPerModule, darkColor, lightColor, drawQuietZones))
             {
                 base64 = BitmapToBase64(bmp, imgType);
             }

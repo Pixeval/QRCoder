@@ -46,8 +46,7 @@ namespace QRCoderDemo
             using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(textBoxQRCode.Text, eccLevel))
             using (QRCode qrCode = new QRCode(qrCodeData))
             {
-                var img = qrCode.GetGraphic(20, GetPrimaryColor(), GetBackgroundColor(),
-                    GetIconBitmap(), (int)iconSize.Value);
+                var img = qrCode.GetGraphic(20, GetPrimaryColor(), GetBackgroundColor());
                 using (var ms = new MemoryStream())
                 {
                     img.Save(ms,new PngEncoder());
